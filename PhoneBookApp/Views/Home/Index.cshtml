@@ -41,11 +41,11 @@
                 <td><i class="bi bi-trash3-fill text-danger text-center"></i></td> *@
                         <td class="text-center">
                             <a asp-controller="Home" asp-action="Edit" asp-route-id="@contact.ContactId" class="btn"><i class="bi bi-pencil-square text-primary text-center mx-2"></i></a>
-                            <a asp-controller="Home" asp-action="Delete" asp-route-id="@contact.ContactId" class="btn"><i class="bi bi-trash3-fill text-danger text-center mx-2"></i></a>
+                           @*  <a asp-controller="Home" asp-action="Delete" asp-route-id="@contact.ContactId" class="btn"><i class="bi bi-trash3-fill text-danger text-center mx-2"></i></a> *@
                            @* <button type="button" asp-route-id="@contact.contactid" onclick="handledelete()">
                                 <i class="bi bi-trash3-fill text-danger text-center mx-2"></i>
                             </button> *@
-                           @*  <button class="btn delete-btn" data-id="@contact.ContactId"><i class="bi bi-trash3-fill text-danger text-center mx-2"></i></button> *@
+                            <button class="btn delete-btn" data-id="@contact.ContactId"><i class="bi bi-trash3-fill text-danger text-center mx-2"></i></button>
 
 
                         </td>

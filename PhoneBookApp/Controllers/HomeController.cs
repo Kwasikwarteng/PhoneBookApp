@@ -73,28 +73,28 @@ namespace PhoneBookApp.Controllers
             return View(contact);
         }
 
-        //Get - Delete
-        public IActionResult Delete(int? id)
-        {
-            if (id == null || id == 0)
-            {
-                return NotFound();
-            }
+        ////Get - Delete
+        //public IActionResult Delete(int? id)
+        //{
+        //    if (id == null || id == 0)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var contact = _context.Contacts.Find(id);
+        //    var contact = _context.Contacts.Find(id);
 
-            if (contact == null)
-            {
-                return NotFound();
-            }
-            return View(contact);
-        }
+        //    if (contact == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    return View(contact);
+        //}
 
 
         //Post - Delete
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult DeletePost(int? Id)
+
+        public IActionResult Delete(int? Id)
         {
             var contact = _context.Contacts.Find(Id);
             if (contact == null)
