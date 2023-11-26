@@ -1,8 +1,113 @@
-﻿@{
+﻿@model IEnumerable<Contact>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container">
+    <div class="text-center">
+        <h1 class="display-4 text-md p-5 "><i class="bi bi-person-lines-fill"></i> <strong>Phone Book App</strong></h1>
+    </div>
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class=""><strong>Contacts</strong></h2>
+        </div>
+        <div class="col-6">
+            <a asp-controller="Home" asp-action="AddContact" class="btn btn-primary float-end"> + Add Contact</a>
+        </div>
+    </div>
+
+    <br />
+
+    @if (Model.Count() > 0)
+    {
+        <table class="table table-bordered table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Phone Number</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var contact in Model)
+                {
+                    <tr>
+                        <td>@contact.FirstName</td>
+                        <td>@contact.LastName</td>
+                        <td>@contact.PhoneNumber</td>
+                        @* <td><i class="bi bi-pencil-square text-secondary text-center"></i></td>
+                <td><i class="bi bi-trash3-fill text-danger text-center"></i></td> *@
+                        <td class="text-center">
+                            <a asp-controller="Home" asp-action="Edit" asp-route-id="@contact.ContactId" class="btn"><i class="bi bi-pencil-square text-primary text-center mx-2"></i></a>
+                            <a asp-controller="Home" asp-action="Delete" asp-route-id="@contact.ContactId" class="btn"><i class="bi bi-trash3-fill text-danger text-center mx-2"></i></a>
+                           @* <button type="button" asp-route-id="@contact.contactid" onclick="handledelete()">
+                                <i class="bi bi-trash3-fill text-danger text-center mx-2"></i>
+                            </button> *@
+                           @*  <button class="btn delete-btn" data-id="@contact.ContactId"><i class="bi bi-trash3-fill text-danger text-center mx-2"></i></button> *@
+
+
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No Contact Exists!</p>
+    }
 </div>
+
+@section Scripts{
+    
+    <script>
+        $(document).ready(function () {
+            $('.delete-btn').on('click', function () {
+                var itemId = $(this).data('id');
+
+                if (itemId === undefined) {
+                    // Log an error or handle the missing itemId
+                    console.error('Item ID is undefined.');
+                    return;
+                }
+
+                // Display SweetAlert confirmation
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'You won\'t be able to revert this!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: '/Home/Delete/' + itemId,
+                            type: 'POST',
+                            success: function (data) {
+                                if (data.success) {
+                                    // Optionally, you can show a success message
+                                    Swal.fire('Deleted!', 'Your item has been deleted.', 'success');
+                                    // Optionally, you can reload the page or update the UI
+                                    // window.location.reload();
+                                } else {
+                                    // Handle error case
+                                    Swal.fire('Error', data.message || 'An error occurred during delete.', 'error');
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                // Handle AJAX error and display the error message
+                                Swal.fire('Error', 'An error occurred during delete. Please try again later.', 'error');
+                                console.error(xhr.responseText);
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+
+}
