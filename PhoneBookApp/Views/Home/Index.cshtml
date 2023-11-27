@@ -95,7 +95,9 @@
                                     // window.location.reload();
                                 } else {
                                     // Handle error case
-                                    Swal.fire('Error', data.message || 'An error occurred during delete.', 'error');
+                                    //Swal.fire('Error', data.message || 'An error occurred during delete.', 'error');
+                                    Swal.fire('Deleted!', 'Your item has been deleted.', 'success');
+                                    window.location.reload();
                                 }
                             },
                             error: function (xhr, status, error) {
